@@ -1,0 +1,94 @@
+[
+      {
+        "id": 1,
+        "name": "Альпинистские карабины с резьбовой муфтой keylock",
+        "price": 1329,
+        "image": "img/all_silver_clip.png",
+        "block": "block1"
+      },
+      {
+        "id": 2,
+        "name": "D-образный карабин 'Гусь' с байонетной муфтой",
+        "price": 1329,
+        "image": "img/orange_clip.png",
+        "block": "block1"
+      },
+      {
+        "id": 3,
+        "name": "Титановый карабин овальный с муфтой keylock",
+        "price": 750,
+        "image": "img/few_clips.png",
+        "block": "block1"
+      },
+      {
+        "id": 4,
+        "name": "Промышленный карабин сверхпрочный 1 тонна с перемычкой",
+        "price": 869,
+        "image": "img/black_orange_clip.png",
+        "block": "block1"
+      },
+      {
+        "id": 5,
+        "name": "Спасательный карабин титановый универсальный с байонетной муфтой",
+        "price": 1290,
+        "image": "img/big_small_clip.png",
+        "block": "block1"
+      },
+      {
+        "id": 6,
+        "name": "Устройство канатно-спускное пожарное ручное 15 метров (3 этаж)",
+        "price": 13590,
+        "image": "img/rope_release_manual1.jpg",
+        "block": "block2"
+      },
+      {
+        "id": 7,
+        "name": "Устройство канатно-спускное пожарное ручное 30 метров (6 этаж)",
+        "price": 1785,
+        "image": "img/rope_release_manual2.jpg",
+        "block": "block2"
+      },
+      {
+        "id": 8,
+        "name": "Устройство канатно-спускное пожарное ручное с рюкзаком-косынкой",
+        "price": 17750,
+        "image": "img/rope_release_manual3.jpg",
+        "block": "block2"
+      },
+      {
+        "id": 9,
+        "name": "Трос для канатно-спускного пожарного ручного устройства",
+        "price": 2200,
+        "image": "img/rope_release_manual4.jpg",
+        "block": "block2"
+      },
+      {
+        "id": 10,
+        "name": "Трос для канатно-спускного пожарного ручного устройства с титановым крюком",
+        "price": 11750,
+        "image": "img/manual_rope.png",
+        "block": "block2"
+      },
+      {
+        "id":11,
+        "name": "Устройство канатно-спускное пожарное автоматическое",
+        "price": 25200,
+        "image": "img/fire_self_resque.png",
+        "block": "block3"
+      },
+      {
+        "id": 12,
+        "name": "Устройство канатно-спускное пожарное автоматическое с рюкзаком-косынкой",
+        "price": 17750,
+        "image": "img/self_equip.png",
+        "block": "block3"
+      },
+      {
+        "id": 13,
+        "name": "Трап спасательный 15 метров (до 3 этажа)",
+        "price": 45700,
+        "image": "img/emergency_slide.png",
+        "block": "block3"
+     }
+]
+  
