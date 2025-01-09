@@ -1,3 +1,7 @@
+* {
+  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 .logo {
     width: 35px; 
     height: 35px;
@@ -487,6 +491,9 @@ max-width: 72%;
   font-size: 12px;
 }
 
+.add-trolley:active{
+  background-color: #e96e0a;
+}
 
 .prev-button,
 .next-button {
@@ -726,6 +733,11 @@ header .telephone b {
   height: 35px; }
   
 }
+@media (max-width: 512px) {
+  .logo {
+    display: none;
+  }
+}
 
 @media (max-width: 460px) {
   .menu li {
@@ -736,7 +748,15 @@ header .telephone b {
   margin-left: 9px;
   margin-right: 24px;
 }
-
+.spetz-description {
+  display: none;
+}
+.h2 {
+  margin-top: 70px;
+  font-size: 13px;
+  width: 86%;
+  line-height: 17px;
+}
 
 .selling-line {
   width: 83%;
@@ -766,12 +786,79 @@ header .telephone b {
   gap: 0px;
   margin-bottom: 54px;
 }
+.contact-text {
+  font-size: 13px;
+}
+.collab-img {
+  height: 58px;
+  margin: 0px 12px;}
 }
 
   @media (max-width: 414px) {
-  .logo {
-    display: none;
-  }
+  
   .selling-line p {
     font-size: 10px;}
+
+  .katalog{
+    display: none;
+  }
+  }
+
+  @media (max-width: 392px) {
+.item1 {
+        width: 129px;
+        margin: 4px 2px;
+      }
+.item1 button {
+  font-size: 12px;}
+
+  .trolley {
+    left: 63%;
+    top: 83%;}
+
+    .trolley-index {
+      left: 60%;
+      top: 82%;}
+  .second_slider {
+        width: 140px;
+        height: 140px;}
+  .description {
+    font-size: 15px;
+  }
+  .highlight {
+    font-size: 18px;
+}
+.prev-button, .next-button {
+  bottom: 73px;
+}
+.next-button {
+  left: 82px;}
+
+  .cart_title {
+    font-size: 10px;}
+  
+  .price {
+    font-size: 12px;
+  }
+  }
+
+  @media (max-width: 326px) {
+    .location-name-search {
+      padding-top: 1px;}
+
+    .description {
+      font-size: 14px;
+      }
+    .highlight {
+      font-size: 14px;}
+      .second_slider {
+        width: 120px;
+        height: 120px;
+    }
+    .prev-button, .next-button {
+      bottom: 126px;
+  }
+  .next-button {
+    left: 61px;
+}
   }

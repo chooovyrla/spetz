@@ -235,14 +235,6 @@ for (let i = 0; i <=5; i = i+1) {
     smoothly(spetzDescript, 'textContent', advantages[i].text);
    }
 
-// let cart = {
-//     'cara66in1': 5,
-//     'cara66in2' : 5,
-//     'cara66in3' : 5,
-//     'cara66in4' : 5,
-//     'cara66in5' : 5,
-// }
-
 let iconCart = document.querySelector('.trolley-all');
 let closeCart = document.querySelector('.close');
 let body = document.querySelector('body');
