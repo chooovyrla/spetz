@@ -281,7 +281,7 @@ form:hover > .search{
   position: fixed;
   inset: 0 -270px 0 auto;
   display: grid;
-  grid-template-rows: 42px 1fr 40px;
+  grid-template-rows: 42px 1fr 40px 40px;
   z-index: 100000;
   transition: 0.5s;
 }
@@ -295,13 +295,25 @@ font-size: 11px;
 display: inline-block;
 }
 
-.cart-tab p{
+.cart-tab p, .checkout-lbl{
   padding: 10px;
   color: aliceblue;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin: 0;
   font-weight: 300;
+}
+.cart-price {
+  display: inline-block;
+  padding: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+  font-weight: 300;
+}
+
+.cart-price div, .cart-total-price {
+  display: inline-block;
 }
 
 .cart-btn {
@@ -322,6 +334,63 @@ display: inline-block;
   font-weight: 300;
   cursor: pointer;
 }
+
+.checkout-tab {
+  width: 270px;
+  background-color: rgb(170, 162, 180);
+  color: #140534;
+  position: fixed;
+  inset: 0 -270px 0 auto;
+  display: grid;
+  grid-template-rows: 42px 1fr 40px;
+  z-index: 100001;
+  transition: 0.5s;
+}
+
+body.show-checkout .checkout-tab {
+  inset: 0 0 0 auto;
+}
+
+.checkout-tab button {
+  z-index: 10000000;
+}
+
+form {
+  margin: 0;
+  width: 230px;
+}
+
+form p {
+  text-align: left;
+  font-size: 12px;
+}
+
+.form-checkout {
+  font-size: 13px;
+  text-align: left;
+  margin: 10px;
+}
+
+.checkout-btn {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.back-2-cart {
+  background-color: #dcd1be;
+  border: none;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.submit {
+  background-color: #e96e0a;
+  color: #e96e0a;
+  border: none;
+  font-weight: 300;
+  cursor: pointer;
+}
+
 
 .item-image {
   width: 100%;
@@ -347,10 +416,13 @@ display: inline-block;
 .list-cart .item:nth-child(odd) {
   background-color:  #9c89b3;
 }
-.list-cart{
+.list-cart, .checkout-tab{
   overflow: auto;
 }
 .list-cart::-webkit-scrollbar {
+  width: 0;
+}
+.checkout-tab::-webkit-scrollbar {
   width: 0;
 }
 
@@ -368,11 +440,11 @@ display: inline-block;
   /* margin-top: 10px; */
   border: none;
   cursor: pointer;
-  transition: transform 0.5s;
+  transition: width 0.7s ease, background-color 0.9s ease;
 }
 
 .item1 button:hover {
-  transform: scale(110%); 
+  transform: scale(105%); 
 }
 .item1 {
   display: inline-grid;
@@ -386,6 +458,30 @@ display: inline-block;
 
 .item1 h4 {
   font-weight: 400;
+}
+.add-tr-quantity {
+  display: inline-block;
+  align-content: center;
+}
+.quantity-product {
+  display: none;
+  transition: all 0.6s ease;
+  font-size: 12px;
+}
+
+.quantity-product.visible {
+  display: inline-block;
+  transition: all 0.6s ease;
+}
+
+.card-plus, .card-minus {
+  display: none;
+}
+
+
+.card-plus.visible, .card-minus.visible {
+  font-size: 10px;
+  display: inline-block;
 }
 
 .trolley {
@@ -489,10 +585,6 @@ max-width: 72%;
 
 .tab-text {
   font-size: 12px;
-}
-
-.add-trolley:active{
-  background-color: #e96e0a;
 }
 
 .prev-button,

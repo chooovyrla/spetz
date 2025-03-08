@@ -127,9 +127,15 @@ let listProductHTML = document.querySelector('.listProduct');
 let listCartHTML = document.querySelector('.list-cart');
 let iconCartSpan = document.querySelector('.trolley-index');
 let blocksContainer = document.querySelector('.tab-container');
+let checkOut = document.querySelector('.checkout');
+let backToCart = document.querySelector('.back-2-cart');
 
 let listProducts = [];
 let carts = [];
+
+const updateCheckoutPage = () => {
+  window.dispatchEvent(new Event('cartUpdated')); 
+};
 
 iconCart.addEventListener('click', () => {
   body.classList.toggle('show-cart');
@@ -137,6 +143,13 @@ iconCart.addEventListener('click', () => {
 
 closeCart.addEventListener('click', () => {
   body.classList.toggle('show-cart') 
+})
+
+checkOut.addEventListener('click', () => {
+  body.classList.toggle('show-checkout') 
+})
+backToCart.addEventListener('click', () => {
+  body.classList.toggle('show-checkout') 
 })
 
 
@@ -156,11 +169,20 @@ const addDataToHTML = () => {
     let newProduct = document.createElement('div');
     newProduct.classList.add('item1');
     newProduct.dataset.id = product.id;
+    newProduct.id = product.id;
+
+    let positionThisProductInCart = carts.find(cart => cart.product_id == product.id);
+    let quantity = positionThisProductInCart ? positionThisProductInCart.quantity : 0;
+
     newProduct.innerHTML = `
       <img src="${product.image}" class="${product.class}" alt="">
       <h4 class="cart_title">${product.name}</h4>
       <div class="price">${product.price} ₽</div>
-      <button class="add-trolley">Добавить в корзину</button>
+      <div class="add-quantity"> <button class="add-trolley">Добавить в корзину</button>
+      <span class="card-minus"><</span>
+      <div class="quantity-product"> </div>
+      <span class="card-plus">></span>
+      </div>
     `;
     targetBlock.appendChild(newProduct);
   }
@@ -172,7 +194,8 @@ const addDataToHTML = () => {
 blocksContainer.addEventListener('click', (event) => {
   let positionClick = event.target;
   if (positionClick.classList.contains('add-trolley')) {
-    let product_id = positionClick.parentElement.dataset.id;
+    let product_id = positionClick.parentElement.parentElement.dataset.id;
+    console.log(product_id);
     addToCart(product_id); 
   }
 })
@@ -194,6 +217,7 @@ const addToCart = (product_id) => {
     }
     addToCartHTML();
     addCartToMemory();
+    updateCheckoutPage();
 }
 const addCartToMemory = () => {
 localStorage.setItem('cart', JSON.stringify(carts));
@@ -202,14 +226,19 @@ localStorage.setItem('cart', JSON.stringify(carts));
 const addToCartHTML = () => {
   listCartHTML.innerHTML = '';
   let totalQuantity = 0;
+  let totalAmount = 0; // Итоговая сумма заказа
+  let totalPriceElement = document.querySelector('.cart-total-price'); // div для суммы
   if(carts.length > 0) {
     carts.forEach(cart => {
-      totalQuantity = totalQuantity + cart.quantity;
+      totalQuantity += cart.quantity;
       let newCart = document.createElement('div');
       newCart.classList.add('item');
       newCart.dataset.id = cart.product_id;
       let positionProduct = listProducts.findIndex((value) => value.id == cart.product_id);
       let info = listProducts[positionProduct];
+      let itemTotalPrice = info.price * cart.quantity;
+      totalAmount += itemTotalPrice; // Добавляем в общую сумму
+
       newCart.innerHTML = `
    <div class="item-img">
     <img src="${info.image}" class="item-image" alt="">
@@ -229,9 +258,12 @@ const addToCartHTML = () => {
     })
   }
   iconCartSpan.innerText = totalQuantity;
+  totalPriceElement.textContent = `${totalAmount} ₽`; // Выводим итоговую сумму
+  updateCheckoutPage();
 }
 listCartHTML.addEventListener('click', (event) => {
   let positionClick = event.target;
+
   if(positionClick.classList.contains('cart-minus') || positionClick.classList.contains('cart-plus')) {
     let product_id = positionClick.parentElement.parentElement.dataset.id;
     let type = 'cart-minus';
@@ -243,24 +275,37 @@ listCartHTML.addEventListener('click', (event) => {
 })
 const changeQuantity = (product_id, type) => {
   let positionItemInCart = carts.findIndex((value) => value.product_id == product_id);
+  
+  const card = document.getElementById(product_id);
+  const quantityElement = card.querySelector('.quantity-product');
+  const knopka = card.querySelector('.add-trolley');
+
   if(positionItemInCart >=0) {
     switch(type) {
       case 'cart-plus':
         carts[positionItemInCart].quantity = carts[positionItemInCart].quantity + 1;
+        quantityElement.textContent = '<' + carts[positionItemInCart].quantity + ' шт.' + '>';
         break;
 
       default:
         let valueChange = carts[positionItemInCart].quantity - 1;
         if(valueChange > 0) {
           carts[positionItemInCart].quantity = valueChange;
+          quantityElement.textContent = '<' + carts[positionItemInCart].quantity + ' шт.' + '>';
         } else {
           carts.splice(positionItemInCart, 1);
+          quantityElement.classList.remove('visible');
+          knopka.textContent = 'Добавить в корзину';
+          knopka.style.backgroundColor = '#140534c2';
+          knopka.style.width = '100%'; 
         }
         break;
         }
     }
     addCartToMemory();
     addToCartHTML();
+    updateCheckoutPage();
+    
   }
 
 const initApp = () => {
@@ -270,10 +315,11 @@ const initApp = () => {
     .then(data => {
         listProducts = data;
         addDataToHTML();
+        
 
   // Вынуть данные в памяти
   if(localStorage.getItem('cart')) {
-    carts = JSON.parse(localStorage.getItem('cart'));
+    carts = JSON.parse(localStorage.getItem('cart'))?.filter(item => item.product_id);
     addToCartHTML();
   }
     })
@@ -282,9 +328,76 @@ initApp();
 
 blocksContainer.addEventListener('click', (event) => {
   let clickedElement = event.target;
+  let quantityElement = clickedElement.parentElement.querySelector('.quantity-product');
 
   if (clickedElement.classList.contains('add-trolley')) {
     clickedElement.textContent = 'Уже в корзине';
     clickedElement.style.backgroundColor = '#4CAF50';
+    clickedElement.style.width = '50%'; 
+    quantityElement.classList.add('visible');
+    quantityElement.textContent = '1 шт.';
   }
+});
+
+// blocksContainer.addEventListener('click', (event) => {
+//   let clickedElement = event.target;
+
+//   if (clickedElement.classList.contains('add-trolley')) {
+//     let productCard = clickedElement.parentElement; // Карточка товара
+//     let quantityElement = productCard.querySelector('.quantity-product'); // Ищем элемент с количеством товара
+
+//     if (quantityElement) {
+//       clickedElement.textContent = 'Уже в корзине';
+//       clickedElement.style.backgroundColor = '#4CAF50';
+//       clickedElement.style.width = '60%'; 
+//       quantityElement.style.display = 'block'; // Показываем количество товара
+//     }
+//   }
+// });
+
+document.addEventListener('DOMContentLoaded', () => {
+  let formCheckout = document.querySelector('.form-checkout form'); // Форма
+  let checkoutItemsContainer = document.createElement('div'); // Контейнер для чекбоксов
+  checkoutItemsContainer.classList.add('checkout-items');
+  formCheckout.insertBefore(checkoutItemsContainer, formCheckout.querySelector('label[for="customer-name"]')); // Вставляем перед полем имени
+
+  let carts = JSON.parse(localStorage.getItem('cart')) || []; // Загружаем корзину
+  let listProducts = []; // Загружаем товары из products.json
+
+  // Получаем список продуктов
+  fetch('products.json')
+      .then(response => response.json())
+      .then(data => {
+          listProducts = data;
+          renderCheckoutList();
+      });
+
+  function renderCheckoutList() {
+      checkoutItemsContainer.innerHTML = ''; // Очищаем перед добавлением
+      carts = JSON.parse(localStorage.getItem('cart')) || []; 
+
+      carts.forEach(cart => {
+          let product = listProducts.find(p => p.id == cart.product_id);
+          if (!product) return; // Если товара нет в products.json, пропускаем
+
+          let itemTotalPrice = product.price * cart.quantity; // Цена * количество
+
+          let itemElement = document.createElement('p');
+          itemElement.innerHTML = `
+              <label>
+                  <input type="checkbox" name="selected-items" checked data-price="${itemTotalPrice}">
+                  ${product.name} (${cart.quantity} шт.) - ${itemTotalPrice} ₽
+              </label>
+          `;
+
+          checkoutItemsContainer.appendChild(itemElement);
+      });
+
+      if (carts.length === 0) {
+          checkoutItemsContainer.innerHTML = '<p>Корзина пуста</p>';
+      }
+  }
+       window.addEventListener('cartUpdated', () => {
+      renderCheckoutList();
+    });
 });
